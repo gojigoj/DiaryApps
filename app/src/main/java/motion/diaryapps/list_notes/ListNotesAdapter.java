@@ -26,6 +26,13 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
     private List<ListNotesModel> mLists = new ArrayList<>();
     private Context mContext;
     // TODO: 4/12/19 -> Tambahkan Constructor disini
+
+    public ListNotesAdapter(List<ListNotesModel> mLists, Context mContext) {
+        this.mLists = mLists;
+        this.mContext = mContext;
+    }
+
+
     // hint: gunakan alt+insert
 
     /**
@@ -40,10 +47,10 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
         mContext = viewGroup.getContext();
 
         // TODO: 4/12/19 -> ganti null dengan LayoutInflater.from(...).inflate(...)
-        View view = null;
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_notes,viewGroup,false);
 
         // TODO: 4/12/19 -> ganti null dengan Inisialisasi objek ViewHolder disini dengan memasukkan view yang telah dibuat
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }
@@ -59,6 +66,9 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
         final int position = i;
 
         // TODO: 4/12/19 -> set setiap component yang akan tampil sesuai dengan data pada mList
+        final ListNotesModel listNotes = mLists.get(i);
+        viewHolder.diaryTitle.setText(listNotes.getTitle());
+        viewHolder.diaryDate.setText(Tools.getNormalDate("dd M YYYY"));
         // hint: untuk date gunakan Tools.getNormalDate(....)
 
         viewHolder.cvItemListNotes.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +77,7 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
 
                 // TODO: 4/12/19 -> ganti null dengan objek Intent baru ke DetailNotesActivity disini
                 // hint: gunakan mContext untuk mengisi parameter context
-                Intent intent = null;
-
+                Intent intent = new Intent(mContext, DetailNotesActivity.class);
                 mContext.startActivity(intent);
             }
         });
@@ -84,7 +93,7 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
     public int getItemCount() {
         // TODO: 4/12/19 -> ganti return menjadi panjang list
         // hint : gunakan method xxxx.size()
-        return 0;
+        return mLists.size();
     }
 
     /**
@@ -98,6 +107,8 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
         ImageView ivItemListNotes;
 
         // TODO: 4/12/19  -> buat attribute setiap component disini
+        TextView diaryDate;
+        TextView diaryTitle;
         // hint: ikuti contoh diatas
 
         public ViewHolder(@NonNull View itemView) {
@@ -107,6 +118,8 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
             ivItemListNotes = itemView.findViewById(R.id.ivItemListNotes);
 
             // TODO: 4/12/19 -> inisialisasi setiap attribute dengan idnya disini
+            diaryDate = itemView.findViewById(R.id.tvItemListNotesDate);
+            diaryTitle = itemView.findViewById(R.id.tvItemListNotesTitle);
             // hint: gunakan itemView.findViewById(R.id.xxxxx) seperti contoh diatas
 
         }
